@@ -77,7 +77,7 @@ handleSubmit(event){
                             />
                             <div className="help-block with-errors"></div>
                         </div> 
-                        <hr className="colorgraph"/>
+  
                         <div className="form-group">
                             <input 
                             value={ this.state.lastName}
@@ -91,7 +91,6 @@ handleSubmit(event){
                             />
                             <div className="help-block with-errors"></div>
                         </div>
-                        <hr className="colorgraph"/>
                         <div className="form-group">
                             <input 
                             value={ this.state.email}
@@ -105,7 +104,6 @@ handleSubmit(event){
                             />
                             <div className="help-block with-errors"></div>
                         </div>
-                        <hr className="colorgraph"/>
                         <div className="form-group">
                             <input 
                             type="text" 
@@ -119,7 +117,6 @@ handleSubmit(event){
                             />
                             <div className="help-block with-errors"></div>
                         </div>
-                        <hr className="colorgraph"/>
                         <div className="form-group">
                             <input 
                             value={ this.state.password}
@@ -133,7 +130,18 @@ handleSubmit(event){
                             />
                             <div className="help-block with-errors"></div>
                         </div> 
-                        <button> Sign Up</button>
+
+
+                        <hr class="colorgraph" />
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <input type="submit" 
+                                        class="btn btn-lg btn-success btn-block" value="Sign In"/>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <a href="/" class="btn btn-lg btn-primary btn-block">Login</a>
+                                    </div>
+                                </div>
                     </form>
                     </div>
                     </div>
