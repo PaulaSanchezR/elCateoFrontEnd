@@ -9,8 +9,9 @@ import axios from 'axios';
 import Signup from './components/user-pages/Signup'
 import Login from './components/user-pages/Login'
 import Addtree from './components/tree-pages/AddTree'
-
-
+import Logout from './components/user-pages/Logout'
+import AddTreeRecord from './components/tree-pages/AddTreeRecord'
+import ListRecord from './components/tree-pages/ListRecord'
 
 class App extends Component {
   constructor(){
@@ -46,24 +47,76 @@ syncCurrentUser(user){
   render() {
     return (
       <div id="root">
-        <div class="wrapper">
-            <div class="sidebar" data-color="black">
-                <div class="sidebar-background"></div>
-              <div class="logo">
-                  <div class="logo-img">
-                    <img src={logo} alt="My logo" style={{height:100}}/>  
+        <div className="row">
+         <div className="col-lg-3">
+            <div className="sidebar" data-color="black">
+  
+                  <div className="sidebar-background">
+                    <div className="logo">
+                      <div className="logo-img">
+                        <img src={logo} alt="My logo" style={{height:100}}/>
+                      El Cateo 
+                      </div>
+                     
                   </div>
-              </div>
-        </div>
-          <div class="main-panel">
-            <div className="App">
-              <header>
-              </header>
-              {this.state.currentUser ? ( 
-              <section> <h2> Your are signed up!</h2>
-                <p> Welcome , { this.state.currentUser.username}</p>
+                  {this.state.currentUser ? ( 
                 
-                </section>) : ( <Switch>
+                    <ul className="nav">
+                        
+                        <li>
+                        <NavLink to="/addtree"> Add Tree </NavLink>
+                        </li>
+                    </ul>
+                ) : (
+                      <div></div>
+                  )}
+                  
+                </div>
+            </div>
+           </div>
+           <div className="col-lg-9">
+          <div className="main-panel">
+            <div className="App">
+              
+              {this.state.currentUser ? ( 
+              
+                <section> 
+                  <header>
+                  <nav className="navbar navbar-default">
+                  <i className="pe-7s-close-circle"><div> Log out</div></i>
+                    <p> Welcome { this.state.currentUser.username}</p>
+                  </nav>
+                  <hr className="colorgraph"/>
+                 </header>
+                
+                <div className="row">
+                 <div className="col-lg-3 ">
+                  <div className="card card-stats"><p>ensayo</p></div>
+                 </div>
+                 <div className="col-lg-3 ">
+                  <div className="card card-stats"><p>ensayo</p></div>
+                 </div>
+                 <div className="col-lg-3 ">
+                  <div className="card card-stats"><p>ensayo</p></div>
+                 </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-5 card card-stats">
+                  <Addtree />
+                   {/* <Switch>
+                      <Route path ="/addtree"   component= { Addtree } />
+                   </Switch> */}  
+                  </div>
+                  <div className="col-log-4">
+                  </div>
+                </div>
+                
+               </section> 
+              
+           
+                ) : ( 
+                
+                <Switch>
                 <Route exact path = "/" render = { () =>
                   <Login currentUser={ this.state.currentUser}
                   onUserChange={ userDoc => this.syncCurrentUser(userDoc)} />
@@ -74,6 +127,17 @@ syncCurrentUser(user){
                   onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
                 } >
                 </Route>
+                <Route exact path ="/logout" render={ ()=>
+                <Logout currentUser={ this.state.currentUser}
+                  onUserChange= { userDoc => this.syncCurrentUser(userDoc)} />
+                }>
+                </Route>
+                <Route exact path ="/treeRecord" render={ () =>
+                <AddTreeRecord />
+                }/>
+                <Route exact path ="/listRecord/:idtree" render={ () =>
+                <ListRecord />
+                }/>
               </Switch> )
 
               }
@@ -81,6 +145,7 @@ syncCurrentUser(user){
           </div>
           </div>
           </div>
+          </div> 
        </div>
    );
   }

@@ -1,44 +1,82 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import { Redirect } from 'react-router-dom'
 
 class Addtree extends Component {
     state ={
+        id:'',
         name:'',
         position: '',
+        latitud: '',
         altitud: '',
-        longitud: '',
-        desciption: ''
+        desciption: '',
+        groupId:'',
+        message:'',
+        groupArray:[],
+        redirect: false,
     };
+genircSync(event){
+    const { name, value } = event.target;
+    this.setState( { [name]: value})
+    console.log("name ==", event.target.name, "value ==", event.target.value)
+ }
 
-    handleSubmit = event => {
+
+handleSubmit = event => {
         event.preventDefault();
-        const { name, position,altitud,longitud,desciption} = this.state;
+        const { name, position,latitud,altitud,desciption, groupId } = this.state;
         axios
             .post(
                 'http://localhost:5000/api/tree',
-                { name, position,altitud,longitud,desciption },
+                { name, position,altitud,latitud,desciption, groupId },
                 { withCredentials:true }
                 )
-            .then()
-            .catch()
-    
-    
-    
-    
+            .then(responseFromDB =>{
+                console.log("add tree", responseFromDB.data)
+                this.setState({ isSubmitSuccessful:true})
+               // return <Redirect to='/treeRecod/:{responseFromDB.data._id}'/>
+            })
+            .catch( err => console.log(err))
     }
 
 
+componentDidMount(){
+        axios.get(
+            "http://localhost:5000/api/allgroup",
+            { withCredentials:true }
+        )
+        .then( responseFromApi => {
+            console.log( "groups== ", responseFromApi.data)
+            this.setState( { groupArray: responseFromApi.data})
+        })
+        .catch(err => console.log(err))
+    }
 
 
     render(){
+        const  groupArray  = this.state.groupArray
+        console.log("state== " , this.state.id);
+
+
+
+        // ask sandra how can I redirect this with the tree id
+        const { redirect } = this.state;
+        
+        if (redirect) {
+          return <Redirect to={`/listRecord/${this.state._id}`}/>;
+        }
+   
+        
+ 
+
         return (
             <section>
-            <div className="container">
-            <div className="row" style={{marginTop:150}}>
-            <div className="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+           
+            <div className="row" >
+            {/*<div className="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">/*/}
+            <div className="col-lg-12">
             <form onSubmit ={event => this.handleSubmit(event)} >
-            <h2>Tree Inf</h2>
+            <h2>Add Tree</h2>
                 <hr className="colorgraph"/>
                 <div className="form-group">
                     <input 
@@ -70,14 +108,14 @@ class Addtree extends Component {
                 <hr className="colorgraph"/>
                 <div className="form-group">
                     <input 
-                    value={ this.state.altitud}
+                    value={ this.state.latitud}
                     onChange={ event => this.genircSync(event)}
                     type="text" 
-                    name="altitud" 
-                    id="altitud" 
+                    name="latitud" 
+                    id="latitud" 
                     className="form-control input-lg" 
-                    placeholder="altitud" 
-                    required data-error="Please, Add altitud." 
+                    placeholder="latitud" 
+                    required data-error="Please, Add latitud." 
                     />
                     <div className="help-block with-errors"></div>
                 </div>
@@ -85,13 +123,13 @@ class Addtree extends Component {
                 <div className="form-group">
                     <input 
                     type="text" 
-                    value={ this.state.longitud}
+                    value={ this.state.altitud}
                     onChange={event => this.genircSync(event)}
-                    name="longitud" 
-                    id="longitud" 
+                    name="altitud" 
+                    id="altitud" 
                     className="form-control input-lg" 
-                    placeholder="longitud" 
-                    required data-error="Please, Add longitud." 
+                    placeholder="altitud" 
+                    required data-error="Please, Add altitud." 
                     />
                     <div className="help-block with-errors"></div>
                 </div>
@@ -109,11 +147,29 @@ class Addtree extends Component {
                     />
                     <div className="help-block with-errors"></div>
                 </div> 
-                <button> Sign Up</button>
+                <hr className="colorgraph"/>
+                <div className="form-group">
+                
+                    <select  
+                        className="form-control form-control-lg"
+                        value={ this.state.groupId}
+                        onChange={ event => this.genircSync(event)}
+                        name="groupId" 
+                        required data-error="Please, Add desciption.">
+                        { groupArray.map(oneGroup => {
+                            return(
+                                 <option value={oneGroup._id}>{oneGroup.name}</option>
+                            )
+                        })}
+                    
+                    </select>
+                    <div className="help-block with-errors"></div>
+                </div> 
+                <button> Submit</button>
             </form>
             </div>
             </div>
-            </div>
+          
 {/* if the message is not NULL then show the message */}
 { this.state.message && <div> { this.state.message } </div> }
         </section> 
