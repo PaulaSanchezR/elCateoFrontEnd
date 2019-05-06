@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
+import listRecord from './ListRecord'
+import ListRecord from './ListRecord';
 
 class Addtree extends Component {
     state ={
-        id:'',
+        _id:'',
         name:'',
         position: '',
         latitud: '',
@@ -13,8 +15,7 @@ class Addtree extends Component {
         groupId:'',
         message:'',
         groupArray:[],
-        redirect: false,
-    };
+         };
 genircSync(event){
     const { name, value } = event.target;
     this.setState( { [name]: value})
@@ -33,9 +34,11 @@ handleSubmit = event => {
                 )
             .then(responseFromDB =>{
                 console.log("add tree", responseFromDB.data)
-                this.setState({ isSubmitSuccessful:true})
-               // return <Redirect to='/treeRecod/:{responseFromDB.data._id}'/>
-            })
+                const treeInfo = responseFromDB.data;
+                this.setState({ treeInfo })
+             //   this.props.history.push('/listRecord/5ccf7d12fc09b77672dc44de')
+                //this.props.history.push(`/listRecord/${treeInfo.treeInf._id}`);
+             })
             .catch( err => console.log(err))
     }
 
@@ -55,23 +58,21 @@ componentDidMount(){
 
     render(){
         const  groupArray  = this.state.groupArray
-        console.log("state== " , this.state.id);
-
-
-
-        // ask sandra how can I redirect this with the tree id
-        const { redirect } = this.state;
-        
-        if (redirect) {
-          return <Redirect to={`/listRecord/${this.state._id}`}/>;
-        }
-   
-        
- 
-
-        return (
-            <section>
+        const  tree  = this.state.treeInfo
            
+            
+        // if (tree) {
+        //      //console.log("entro all tree info", tree.treeInf._id);
+        //     // return <Redirect to={`/listRecord/${tree.treeInf._id}`}/>;
+        //     <ListRecord  theTree ={ this.state} />
+        // }
+   
+        return (
+         
+         <section>
+           
+           {this.state.treeInfo ?   <ListRecord  theTree ={ this.state} /> :(
+
             <div className="row" >
             {/*<div className="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">/*/}
             <div className="col-lg-12">
@@ -156,6 +157,7 @@ componentDidMount(){
                         onChange={ event => this.genircSync(event)}
                         name="groupId" 
                         required data-error="Please, Add desciption.">
+                        <option value="none">==NONE</option>
                         { groupArray.map(oneGroup => {
                             return(
                                  <option value={oneGroup._id}>{oneGroup.name}</option>
@@ -170,6 +172,8 @@ componentDidMount(){
             </div>
             </div>
           
+          ) }
+
 {/* if the message is not NULL then show the message */}
 { this.state.message && <div> { this.state.message } </div> }
         </section> 

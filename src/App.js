@@ -101,13 +101,13 @@ syncCurrentUser(user){
                  </div>
                 </div>
                 <div className="row">
-                  <div className="col-lg-5 card card-stats">
+                  <div className="col-lg-12 card card-stats">
                   <Addtree />
                    {/* <Switch>
                       <Route path ="/addtree"   component= { Addtree } />
                    </Switch> */}  
                   </div>
-                  <div className="col-log-4">
+                  <div className="col-log-3">
                   </div>
                 </div>
                 
@@ -135,9 +135,7 @@ syncCurrentUser(user){
                 <Route exact path ="/treeRecord" render={ () =>
                 <AddTreeRecord />
                 }/>
-                <Route exact path ="/listRecord/:idtree" render={ () =>
-                <ListRecord />
-                }/>
+                <Route path ="/listRecord/:idtree" component={ListRecord}/>
               </Switch> )
 
               }
