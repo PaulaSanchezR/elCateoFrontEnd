@@ -5,10 +5,12 @@ import axios from 'axios';
 class Login extends Component {
         constructor(props){
             super(props);
+            console.log("/////", this.props)
             this.state={
                 username:'',
                 password:'',
                 message:null,
+                currentUser: null,
             }
         }
 
@@ -28,6 +30,12 @@ handleSubmit(event){
     .then( responseFromServer =>{
         const login = responseFromServer.data;
         this.props.onUserChange(login);
+        this.setState({currentUser: login})
+        console.log('666666666 ', this.props)
+        if(this.state.currentUser){
+            console.log("-0- 0- 0- 0- 0- 0-")
+            this.props.history.push("/addTree")
+        }
     })
     .catch(err => {
         if(err.response && err.response.data){
@@ -36,9 +44,14 @@ handleSubmit(event){
     })
 }
 
+
     render(){
-        return(
-            <section>
+        console.log(this.props, 'HHLEOEOOEOEOEOEOEO')
+        return (
+            
+            <section> 
+        {/* {this.state.currentUser ? <Redirect to="/addTree" /> : ( */}
+          
                  <div className="container">
                     <div className="row" style={{marginTop:150}}>
                     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-3 col-md-offset-3">
@@ -85,10 +98,11 @@ handleSubmit(event){
                     </div>
                 </div>
             </div>
-            { this.state.message && <div>
-                { this.state.message}
-            </div>}
+            
+        
         </section>
+
+         
         )
     }
 }

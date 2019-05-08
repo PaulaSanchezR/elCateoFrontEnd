@@ -8,18 +8,20 @@ import axios from 'axios';
 
 import Signup from './components/user-pages/Signup'
 import Login from './components/user-pages/Login'
-import Addtree from './components/tree-pages/AddTree'
+import AddTree from './components/tree-pages/AddTree'
 import Logout from './components/user-pages/Logout'
-import AddTreeRecord from './components/tree-pages/AddTreeRecord'
+import AddRecord from './components/tree-pages/AddRecord'
 import ListRecord from './components/tree-pages/ListRecord'
 
 class App extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
+    console.log('00000000 ', this.props)
 // we are checking if the customer is checkin
 //the first time has to be null
     this.state ={
       currentUser: null,
+  
     }
  }
 
@@ -47,6 +49,7 @@ syncCurrentUser(user){
   render() {
     return (
       <div id="root">
+      
         <div className="row">
          <div className="col-lg-3">
             <div className="sidebar" data-color="black">
@@ -102,11 +105,7 @@ syncCurrentUser(user){
                 </div>
                 <div className="row">
                   <div className="col-lg-12 card card-stats">
-                  <Addtree />
-                   {/* <Switch>
-                      <Route path ="/addtree"   component= { Addtree } />
-                   </Switch> */}  
-                  </div>
+                               </div>
                   <div className="col-log-3">
                   </div>
                 </div>
@@ -115,30 +114,52 @@ syncCurrentUser(user){
               
            
                 ) : ( 
+                  <div>User not logged in</div>
+                )}
                 
                 <Switch>
-                <Route exact path = "/" render = { () =>
-                  <Login currentUser={ this.state.currentUser}
-                  onUserChange={ userDoc => this.syncCurrentUser(userDoc)} />
-                  }> 
-                </Route>
+                <Route exact path = "/" render = {(props) =>                 
+                    <Login 
+                      currentUser={ this.state.currentUser}
+                      onUserChange={ userDoc => this.syncCurrentUser(userDoc)} 
+                      {...props} 
+                    />
+                }/>
+
                  <Route exact path = "/signup" render={ ()=>
                   <Signup currentUser={ this.state.currentUser} 
-                  onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
+                    onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
                 } >
                 </Route>
-                <Route exact path ="/logout" render={ ()=>
-                <Logout currentUser={ this.state.currentUser}
-                  onUserChange= { userDoc => this.syncCurrentUser(userDoc)} />
-                }>
-                </Route>
-                <Route exact path ="/treeRecord" render={ () =>
-                <AddTreeRecord />
-                }/>
-                <Route path ="/listRecord/:idtree" component={ListRecord}/>
-              </Switch> )
 
-              }
+                <Route exact path ="/logout" render={ ()=>
+                  <Logout currentUser={ this.state.currentUser}
+                    onUserChange= { userDoc => this.syncCurrentUser(userDoc)} />
+                  }>
+                </Route>
+
+                <Route path="/addTree" render={ (props)=>
+                  <AddTree {...props} currentUser={ this.state.currentUser} 
+                   onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
+                } >
+                </Route>
+
+                {/* <Route exact path ="/listRecord" render={ ()=>
+                  <ListRecord currentUser={ this.state.currentUser} 
+                   onUserChange={userDoc => this.syncCurrentUser(userDoc)}
+                   />
+                } >
+
+                </Route> */}
+
+                <Route exact path ="/addRecord/:id" render={ (props) =>
+                  <AddRecord {...props} currentUser={ this.state.currentUser} 
+                  onUserChange={ userDoc => this.syncCurrentUser(userDoc)} /> 
+                  }>
+                </Route>
+
+                <Route exact path ="/listRecord/:id" component={ListRecord}/>
+              </Switch>
              
           </div>
           </div>

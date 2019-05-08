@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom'
-import listRecord from './ListRecord'
-import ListRecord from './ListRecord';
 
-class Addtree extends Component {
-    state ={
+
+class AddTree extends Component {
+    constructor(props){
+    super(props);
+    console.log('=-=-=-=-=-=-=-= ', props)
+    this.state ={
         _id:'',
         name:'',
         position: '',
@@ -16,6 +17,8 @@ class Addtree extends Component {
         message:'',
         groupArray:[],
          };
+    }
+         
 genircSync(event){
     const { name, value } = event.target;
     this.setState( { [name]: value})
@@ -37,7 +40,8 @@ handleSubmit = event => {
                 const treeInfo = responseFromDB.data;
                 this.setState({ treeInfo })
              //   this.props.history.push('/listRecord/5ccf7d12fc09b77672dc44de')
-                //this.props.history.push(`/listRecord/${treeInfo.treeInf._id}`);
+             console.log('here!!!!')
+                this.props.history.push(`/listRecord/${treeInfo.treeInf._id}`);
              })
             .catch( err => console.log(err))
     }
@@ -58,20 +62,25 @@ componentDidMount(){
 
     render(){
         const  groupArray  = this.state.groupArray
-        const  tree  = this.state.treeInfo
+        
            
-            
+        // console.log('props are: ', this.props.history)
+
         // if (tree) {
         //      //console.log("entro all tree info", tree.treeInf._id);
         //     // return <Redirect to={`/listRecord/${tree.treeInf._id}`}/>;
         //     <ListRecord  theTree ={ this.state} />
+        //<Redirect to="/listRecord" theTree ={this.state} />
         // }
    
         return (
          
          <section>
-           
-           {this.state.treeInfo ?   <ListRecord  theTree ={ this.state} /> :(
+            {/* {this.state.treeInfo ?   <Redirect to={{
+                                                    pathname:"/listRecord" ,
+                                                    state :{id:tree.treeInf._id}} 
+                                                }/>  
+            :( */}
 
             <div className="row" >
             {/*<div className="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">/*/}
@@ -172,7 +181,7 @@ componentDidMount(){
             </div>
             </div>
           
-          ) }
+          {/* ) } */}
 
 {/* if the message is not NULL then show the message */}
 { this.state.message && <div> { this.state.message } </div> }
@@ -182,4 +191,4 @@ componentDidMount(){
 
 }
 
-export default Addtree;
+export default AddTree;
