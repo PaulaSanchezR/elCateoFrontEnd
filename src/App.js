@@ -62,7 +62,7 @@ syncCurrentUser(user){
                       </div>
                   </div>
                   {this.state.currentUser ? ( 
-                    <nav class="navbar bg-light">
+                    <nav class="navbar ">
                      <ul class="navbar-nav">
                         <li class="nav-item">
                          <NavLink to="/addtree"> ADD TREE </NavLink>
