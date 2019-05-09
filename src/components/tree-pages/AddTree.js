@@ -36,12 +36,13 @@ handleSubmit = event => {
                 { withCredentials:true }
                 )
             .then(responseFromDB =>{
-                console.log("add tree", responseFromDB.data)
+              //  console.log("add tree", responseFromDB.data)
                 const treeInfo = responseFromDB.data;
                 this.setState({ treeInfo })
              //   this.props.history.push('/listRecord/5ccf7d12fc09b77672dc44de')
-             console.log('here!!!!')
-                this.props.history.push(`/listRecord/${treeInfo.treeInf._id}`);
+           //  console.log('here!!!!')
+                //this.props.history.push(`/listRecord/${treeInfo.treeInf._id}`);
+                this.props.history.push(`/addRecord/${treeInfo.treeInf._id}`)
              })
             .catch( err => console.log(err))
     }

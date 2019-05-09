@@ -30,8 +30,8 @@ componentDidMount(){
     //   const { params } = id.match
     //   console.log ("params== ", params)
       axios.get(
-       // `http://localhost:5000/api/treerecord/${params.id}`,
-         `http://localhost:5000/api/treerecord/5cbb91d2de7bd47381adeee7`,
+       `http://localhost:5000/api/treerecord/${params.id}`,
+        //  `http://localhost:5000/api/treerecord/5cbb91d2de7bd47381adeee7`,
            {
               withCredentials:true,
           })
@@ -56,16 +56,17 @@ componentDidMount(){
      
         const treeRecordArray = this.state.treeRecordArray;
         const treeInfo = this.state.treeRecordArray[0];
-       console.log(" tree Info ==", treeInfo) 
-        console.log("////", this.state.treeRecordArray.length)
+    //    console.log(" tree Info ==", treeInfo) 
+    //     console.log("////", this.state.treeRecordArray.length)
    
     const { params } = this.props.match; 
-    console.log('8888888 ----------------------- ', this.state.treeRecordArray.length)
+   // console.log('8888888 ----------------------- ', this.state.treeRecordArray.length)
     return( 
       
         // if does not have any record redirect to AddRecord
  <div className="Container-fluid">
-  { this.state.treeRecordArray.length == 0 ?  ( 
+  
+  {
 
 <div className="row" >
 
@@ -211,7 +212,7 @@ componentDidMount(){
             <th>{oneRecord.irrigation}</th>
             <th>{oneRecord.salt}</th>
             <th>{oneRecord.soilhelth}</th>
-            <th>{oneRecord.illness.name}</th>
+            <th>{/*oneRecord.illness.name*/}</th>
             <th>{oneRecord.illnessdescription}</th>
             <th>{oneRecord.soildescription}</th>
             
@@ -223,10 +224,7 @@ componentDidMount(){
   
 </table>
 </div>
- ):(
-<Redirect to={`/addRecord/${params.id}`} />
-   
-) 
+
 }  
   </div>
 

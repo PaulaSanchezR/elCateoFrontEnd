@@ -12,11 +12,12 @@ import AddTree from './components/tree-pages/AddTree'
 import Logout from './components/user-pages/Logout'
 import AddRecord from './components/tree-pages/AddRecord'
 import ListRecord from './components/tree-pages/ListRecord'
+import Search from './components/tree-pages/Search'
 
 class App extends Component {
   constructor(props){
     super(props)
-    console.log('00000000 ', this.props)
+    // console.log('00000000 ', this.props)
 // we are checking if the customer is checkin
 //the first time has to be null
     this.state ={
@@ -51,47 +52,52 @@ syncCurrentUser(user){
       <div id="root">
       
         <div className="row">
-         <div className="col-lg-3">
+         <div className="col-lg-2">
             <div className="sidebar" data-color="black">
-  
-                  <div className="sidebar-background">
+                 <div className="sidebar-background">
                     <div className="logo">
                       <div className="logo-img">
                         <img src={logo} alt="My logo" style={{height:100}}/>
-                      El Cateo 
+                           El Cateo 
                       </div>
-                     
                   </div>
                   {this.state.currentUser ? ( 
-                
-                    <ul className="nav">
-                        
-                        <li>
-                        <NavLink to="/addtree"> Add Tree </NavLink>
+                    <nav class="navbar bg-light">
+                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                         <NavLink to="/addtree"> ADD TREE </NavLink>
+                         
                         </li>
-                    </ul>
+                        <li class="nav-item">
+                         <NavLink to="/search"> SEARCH </NavLink>
+                         
+                        </li>
+                        <li class="nav-item">
+                         
+                        </li>
+                     </ul>
+                    </nav>
                 ) : (
                       <div></div>
                   )}
-                  
-                </div>
+               </div>
             </div>
-           </div>
-           <div className="col-lg-9">
+        </div>
+      <div className="col-lg-10">
           <div className="main-panel">
             <div className="App">
-              
-              {this.state.currentUser ? ( 
-              
-                <section> 
+                {this.state.currentUser ? ( 
+               <section> 
                   <header>
-                  <nav className="navbar navbar-default">
-                  <i className="pe-7s-close-circle"><div> Log out</div></i>
-                    <p> Welcome { this.state.currentUser.username}</p>
-                  </nav>
-                  <hr className="colorgraph"/>
+                    <nav className="navbar navbar-default">
+                    <i className="pe-7s-close-circle"><div> Log out</div></i>
+                      <p> Welcome { this.state.currentUser.username}</p>
+                    </nav>
+                    <hr className="colorgraph"/>
                  </header>
-                
+                    <div className="col-lg-12 card card-stats">
+                                 
+                    </div>
                 <div className="row">
                  <div className="col-lg-3 ">
                   <div className="card card-stats"><p>ensayo</p></div>
@@ -104,20 +110,23 @@ syncCurrentUser(user){
                  </div>
                 </div>
                 <div className="row">
-                  <div className="col-lg-12 card card-stats">
-                               </div>
-                  <div className="col-log-3">
-                  </div>
+                     <div className="col-log-3">
+                     </div>
                 </div>
-                
-               </section> 
-              
-           
-                ) : ( 
+              </section> 
+              ) : ( 
                   <div>User not logged in</div>
                 )}
                 
-                <Switch>
+            <Switch>
+                <Route exact path = "/search" render = {(props) =>                 
+                    <Search
+                      currentUser={ this.state.currentUser}
+                      onUserChange={ userDoc => this.syncCurrentUser(userDoc)} 
+                      {...props}
+                      
+                    />
+                }/>
                 <Route exact path = "/" render = {(props) =>                 
                     <Login 
                       currentUser={ this.state.currentUser}
@@ -125,41 +134,35 @@ syncCurrentUser(user){
                       {...props} 
                     />
                 }/>
-
-                 <Route exact path = "/signup" render={ ()=>
+                <Route exact path = "/signup" render={ ()=>
                   <Signup currentUser={ this.state.currentUser} 
                     onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
                 } >
                 </Route>
-
-                <Route exact path ="/logout" render={ ()=>
+               <Route exact path ="/logout" render={ ()=>
                   <Logout currentUser={ this.state.currentUser}
                     onUserChange= { userDoc => this.syncCurrentUser(userDoc)} />
                   }>
                 </Route>
-
-                <Route path="/addTree" render={ (props)=>
+               <Route path="/addTree" render={ (props)=>
                   <AddTree {...props} currentUser={ this.state.currentUser} 
                    onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
                 } >
                 </Route>
-
                 {/* <Route exact path ="/listRecord" render={ ()=>
                   <ListRecord currentUser={ this.state.currentUser} 
                    onUserChange={userDoc => this.syncCurrentUser(userDoc)}
                    />
                 } >
-
                 </Route> */}
-
-                <Route exact path ="/addRecord/:id" render={ (props) =>
+               <Route exact path ="/addRecord/:id" render={ (props) =>
                   <AddRecord {...props} currentUser={ this.state.currentUser} 
                   onUserChange={ userDoc => this.syncCurrentUser(userDoc)} /> 
                   }>
-                </Route>
+               </Route>
 
                 <Route exact path ="/listRecord/:id" component={ListRecord}/>
-              </Switch>
+           </Switch>
              
           </div>
           </div>

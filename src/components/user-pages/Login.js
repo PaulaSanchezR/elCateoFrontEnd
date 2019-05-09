@@ -5,7 +5,7 @@ import axios from 'axios';
 class Login extends Component {
         constructor(props){
             super(props);
-            console.log("/////", this.props)
+            // console.log("/////", this.props)
             this.state={
                 username:'',
                 password:'',
@@ -17,7 +17,7 @@ class Login extends Component {
 genericSync(event){
     const { name, value} = event.target;
     this.setState ( { [name]: value})
-    console.log("value", event.target.value)
+    // console.log("value", event.target.value)
 }
 
 handleSubmit(event){
@@ -31,9 +31,9 @@ handleSubmit(event){
         const login = responseFromServer.data;
         this.props.onUserChange(login);
         this.setState({currentUser: login})
-        console.log('666666666 ', this.props)
+        // console.log('666666666 ', this.props)
         if(this.state.currentUser){
-            console.log("-0- 0- 0- 0- 0- 0-")
+            // console.log("-0- 0- 0- 0- 0- 0-")
             this.props.history.push("/addTree")
         }
     })
@@ -46,9 +46,8 @@ handleSubmit(event){
 
 
     render(){
-        console.log(this.props, 'HHLEOEOOEOEOEOEOEO')
+        // console.log(this.props, 'HHLEOEOOEOEOEOEOEO')
         return (
-            
             <section> 
         {/* {this.state.currentUser ? <Redirect to="/addTree" /> : ( */}
           

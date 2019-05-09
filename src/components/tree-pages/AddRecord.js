@@ -16,24 +16,18 @@ class AddRecord extends Component {
             illness : '',
             illnessdescription: '',
             illnessArray:[],
-            isSubmitSuccess: false,
-
         }
     }
 
 
 componentDidMount(){
-          
-          axios.get(
+             axios.get(
               `http://localhost:5000/api/illness`, {
                   withCredentials:true,
               })
               .then(responseFromApi => {
                   //console.log("datos fron DB", responseFromApi.data)
-    
-                  const records = responseFromApi.data;
-                //  console.log('== == = == == ', records)
-                  this.setState({ illnessArray:records });
+                 this.setState({ illnessArray:responseFromApi.data });
               })
               .catch(err => {
                   console.log(err);
@@ -42,7 +36,7 @@ componentDidMount(){
 
 handleSubmit = event =>{
         const { params } = this.props.match
-        console.log("//// parames  /////", params.id)
+       // console.log("//// parames  /////", params.id)
         event.preventDefault();
         const { irrigation ,
                 irrigationdescription,
@@ -66,11 +60,10 @@ handleSubmit = event =>{
                     illnessdescription},
                     {withCredentials:true})
               .then(responseFromDB =>{
-                console.log("data", responseFromDB.data)
+                //console.log("data", responseFromDB.data)
                 const recordInf = responseFromDB.data;
-                 this.setState({ isSubmitSuccess:true })
-                 console.log("herrrer " )
-                //  this.props.history.push(`/listRecord/${params.id}`)
+                 this.setState({ record: recordInf ,isSubmitSuccess:true })
+                 this.props.history.push(`/listRecord/${params.id}`)
               })
               .catch(err => {
                 console.log(err)
@@ -82,19 +75,9 @@ genircSync(event){
 }
 
 render(){
-    const illnessArray = this.state.illnessArray;
-    console.log("-----", this.props)
-    // const { params } = this.props.match
-    // if(this.state.isSubmitSucces){
-    //     return <Redirect to="/" />
-    // }
-    const { params } = this.props.match
-    if(this.state.isSubmitSuccess){
-      console.log("entrooooooooooooo")
-      return  <Redirect to={`/listRecord/${params.id}`} />
-    }
-
-    return(
+    const illnessArrayinfo = this.state.illnessArray;
+    console.log ("illnessArrayinfo",illnessArrayinfo)
+     return(
         <div className="row">
         {/* <div><h1>{params.id}</h1></div> */}
         <div className="col-lg-12">
@@ -194,7 +177,7 @@ render(){
                           name="illness" 
                           required data-error="Please, Add illness.">
                           <option value="none">==NONE</option>
-                          {illnessArray.map(oneIllness => {
+                          {illnessArrayinfo.map(oneIllness => {
                               return(
                                  <option value={oneIllness._id}>{oneIllness.name}</option>
                               )
