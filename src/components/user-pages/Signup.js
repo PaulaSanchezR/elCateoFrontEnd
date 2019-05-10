@@ -28,7 +28,8 @@ genircSync(event){
 handleSubmit(event){
     event.preventDefault();
     axios.post(
-        "http://localhost:5000/api/signup", //route where I sent the inf
+        //"http://localhost:5000/api/signup",
+        `${process.env.REACT_APP_API_URL}/signup`, //route where I sent the inf
         this.state, // what I am sending (since its post route I need to send the form info)
         { withCredentials:true} // and optional credential : true in CORS
     )
