@@ -22,7 +22,8 @@ class AddTreeRecord extends Component {
     event.preventDefault();
     const {   treeId , irrigation, irrigationdescription, soilhelth, soildescription, salt, saltdescription,illness, illnessdescription } = this.state;
     axios.post(
-        'http://localhost:5000/api/treerecord/${this.props.tree._id}',
+        //`http://localhost:5000/api/treerecord/${this.props.tree._id}`,
+        `${process.env.REACT_APP_API_URL}/${this.props.tree._id}`,
         {    treeId , 
             irrigation, 
             irrigationdescription, 
@@ -50,7 +51,8 @@ class AddTreeRecord extends Component {
 
 componentDidMount(){
     axios.get(
-        "http://localhost:5000/api/illness",
+        //`http://localhost:5000/api/illness`,
+        `${process.env.REACT_APP_API_URL}/illness`,
         { withCredentials:true}
     )
     .then( responseFromApi => {

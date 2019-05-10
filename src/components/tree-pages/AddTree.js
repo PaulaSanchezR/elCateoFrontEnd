@@ -31,7 +31,8 @@ handleSubmit = event => {
         const { name, position,latitud,altitud,desciption, groupId } = this.state;
         axios
             .post(
-                'http://localhost:5000/api/tree',
+                //'http://localhost:5000/api/tree',
+                `${process.env.REACT_APP_API_URL}/tree`,
                 { name, position,altitud,latitud,desciption, groupId },
                 { withCredentials:true }
                 )
@@ -50,7 +51,8 @@ handleSubmit = event => {
 
 componentDidMount(){
         axios.get(
-            "http://localhost:5000/api/allgroup",
+            //"http://localhost:5000/api/allgroup",
+            `${process.env.REACT_APP_API_URL}/allgroup`,
             { withCredentials:true }
         )
         .then( responseFromApi => {

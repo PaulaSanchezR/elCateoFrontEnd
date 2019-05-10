@@ -17,7 +17,8 @@ handleSubmit = event =>{
      
      axios
        .get(
-        `http://localhost:5000/api/treerecord/${searchTree}`,
+        //`http://localhost:5000/api/treerecord/${searchTree}`,   
+        `${process.env.REACT_APP_API_URL}/treerecord/${searchTree}`,
         { searchTree },
         {withCredentials:true})
         .then(responseFromDB =>{

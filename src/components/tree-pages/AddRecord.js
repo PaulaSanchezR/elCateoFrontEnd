@@ -22,7 +22,8 @@ class AddRecord extends Component {
 
 componentDidMount(){
              axios.get(
-              `http://localhost:5000/api/illness`, {
+             //`http://localhost:5000/api/illness`,  
+              `${process.env.REACT_APP_API_URL}/illness`, {
                   withCredentials:true,
               })
               .then(responseFromApi => {
@@ -36,7 +37,7 @@ componentDidMount(){
 
 handleSubmit = event =>{
         const { params } = this.props.match
-       // console.log("//// parames  /////", params.id)
+        console.log("//// parames  /////", params.id)
         event.preventDefault();
         const { irrigation ,
                 irrigationdescription,
@@ -49,7 +50,8 @@ handleSubmit = event =>{
                 } = this.state;
         axios 
              .post(
-                  `http://localhost:5000/api/treerecord/${params.id}`,
+               // `http://localhost:5000/api/treerecord/${params.id}`,
+                `${process.env.REACT_APP_API_URL}/treerecord/${params.id}`,
                   { irrigation ,
                     irrigationdescription,
                     soilhelth ,
@@ -60,7 +62,7 @@ handleSubmit = event =>{
                     illnessdescription},
                     {withCredentials:true})
               .then(responseFromDB =>{
-                //console.log("data", responseFromDB.data)
+                console.log("data", responseFromDB.data)
                 const recordInf = responseFromDB.data;
                  this.setState({ record: recordInf ,isSubmitSuccess:true })
                  this.props.history.push(`/listRecord/${params.id}`)

@@ -30,7 +30,8 @@ componentDidMount(){
     //   const { params } = id.match
     //   console.log ("params== ", params)
       axios.get(
-       `http://localhost:5000/api/treerecord/${params.id}`,
+        `http://localhost:5000/api/treerecord/${params.id}`,  
+      // `${process.env.REACT_APP_API_URL}/${params.id}`,
         //  `http://localhost:5000/api/treerecord/5cbb91d2de7bd47381adeee7`,
            {
               withCredentials:true,
