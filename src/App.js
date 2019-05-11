@@ -16,6 +16,8 @@ import Search from './components/tree-pages/Search'
 import ChartOne from './components/tree-pages/ChartOne'
 import ChartTwo from './components/tree-pages/ChartTwo'
 import ChartThree from './components/tree-pages/ChartThree'
+import Illness from     './components/illness/Illness'
+import EditIllness from './components/illness/EditIllness'
 
 class App extends Component {
   constructor(props){
@@ -57,12 +59,14 @@ syncCurrentUser(user){
 logoutClick() {
   console.log(" entroooooo");
   axios.delete(
-    process.env.REACT_APP_SERVER_URL + "/api/logout",
+   `${process.env.REACT_APP_API_URL}/logout`,
     { withCredentials: true } // FORCE axios to send cookies across domains
   )
   .then(() => {
      // make "currentUser" empty again (like it was at the start)
     this.syncCurrentUser(null);
+    this.props.history.push(`/login`)
+
   })
   .catch(err => {
     console.log("Logout ERROR", err);
@@ -96,7 +100,7 @@ logoutClick() {
                          
                         </li>
                         <li class="nav-item">
-                         
+                        <NavLink to="/addIllness"> ILLNESS </NavLink>
                         </li>
                      </ul>
                     </nav>
@@ -146,6 +150,14 @@ logoutClick() {
                       
                     />
                 }/>
+                  <Route exact path = "/editillness" render = {(props) =>                 
+                    <EditIllness
+                      currentUser={ this.state.currentUser}
+                      onUserChange={ userDoc => this.syncCurrentUser(userDoc)} 
+                      {...props}
+                      
+                    />
+                }/>
                 <Route exact path = "/" render = {(props) =>                 
                     <Login 
                       currentUser={ this.state.currentUser}
@@ -158,9 +170,12 @@ logoutClick() {
                     onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
                 } >
                 </Route>
-               <Route exact path ="/logout" render={ ()=>
-                  <Logout currentUser={ this.state.currentUser}
-                    onUserChange= { userDoc => this.syncCurrentUser(userDoc)} />
+               <Route exact path ="/logout" render={ (props)=>
+                  <Logout 
+                    currentUser={ this.state.currentUser}
+                    onUserChange= { userDoc => this.syncCurrentUser(userDoc)} 
+                    {...props}
+                    />
                   }>
                 </Route>
                <Route path="/addTree" render={ (props)=>
@@ -181,6 +196,12 @@ logoutClick() {
                </Route>
 
                 <Route exact path ="/listRecord/:id" component={ListRecord}/>
+
+                <Route path="/addIllness" render={ (props)=>
+                  <Illness {...props} currentUser={ this.state.currentUser} 
+                   onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
+                } >
+                </Route>
            </Switch>
              
           </div>

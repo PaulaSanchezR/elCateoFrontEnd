@@ -25,10 +25,10 @@ componentDidMount(){
   render() {
       const  Illeness  = this.state.listtreerecordArray;
       const  listtreerecord  = this.state.listtreerecordArray;
-      console.log( "listtreeIdSort", listtreerecord)
+    //  console.log( "listtreeIdSort", listtreerecord)
  if (Illeness.length > 0){
               function countData(arrayElemets) {
-                    console.log( "arrayElements", arrayElemets)
+                //    console.log( "arrayElements", arrayElemets)
                     arrayElemets.sort();
 
                     let current = null;
@@ -59,8 +59,8 @@ componentDidMount(){
      let illness = oneRecord["illness"]; 
           // createing an array of names
           newInf.push(illness.name);
-          console.log(newInf);
-          console.log("count", countData(newInf))
+      //    console.log(newInf);
+      //    console.log("count", countData(newInf))
             })
 
         // for(j=0; j< this.state.)
@@ -69,26 +69,13 @@ componentDidMount(){
 
       }
       
-      console.log( "chardata",this.state.chardata )
+    //  console.log( "chardatatwo",this.state.chardata )
      return (
       <div className={"my-pretty-chart-container"}>
         <Chart
           chartType="Bar"
-          data=//{this.state.chardata}
-          // {[
-          //   ['City', '2010 Population', '2000 Population'],
-          //   ['New York City, NY', 8175000, 8008000],
-          //   ['Los Angeles, CA', 3792000, 3694000],
-          //   ['Chicago, IL', 2695000, 2896000],
-          //   ['Houston, TX', 2099000, 1953000],
-          //   ['Philadelphia, PA', 1526000, 1517000],
-          // ]}
-          {[
-            ["Illness", "Qty tree"],
-            ["Avocado root rot", 13],
-            ["Green root rot", 14],
-            ["Red root rot", 5]
-          ]}
+          data={this.state.chardata[0]}
+        
           width="60%"
           height="200px"
 
