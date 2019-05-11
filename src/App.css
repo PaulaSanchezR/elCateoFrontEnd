@@ -43,7 +43,6 @@
   overflow: auto;
     position: relative;
     z-index: 4;
-    width: 260px;
     height: calc(100% - 64px);
     padding-bottom: 30px;
     -webkit-box-shadow: inset -1px 0 0 0 #cfcfca;
@@ -56,7 +55,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 460px;
+  
   display: block;
   z-index: 1;
   color: rgb(69, 95, 52);
@@ -67,9 +66,9 @@
 .card{
   border-radius:4px;
   margin-bottom: 30px;
-  padding: 5px;
+  padding: 1px;
   box-shadow: 0 1px 2px rgba(0,0,0,.05);
-  background-color: #ffffff;
+  background-color: #c0e4bb;
   align-items: center;
 }
 

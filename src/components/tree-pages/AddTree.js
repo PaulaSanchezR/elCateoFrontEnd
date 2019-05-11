@@ -5,7 +5,7 @@ import axios from 'axios';
 class AddTree extends Component {
     constructor(props){
     super(props);
-    console.log('=-=-=-=-=-=-=-= ', props)
+   // console.log('=-=-=-=-=-=-=-= ', props)
     this.state ={
         _id:'',
         name:'',
@@ -22,7 +22,7 @@ class AddTree extends Component {
 genircSync(event){
     const { name, value } = event.target;
     this.setState( { [name]: value})
-    console.log("name ==", event.target.name, "value ==", event.target.value)
+   //console.log("name ==", event.target.name, "value ==", event.target.value)
  }
 
 
@@ -37,7 +37,7 @@ handleSubmit = event => {
                 { withCredentials:true }
                 )
             .then(responseFromDB =>{
-              //  console.log("add tree", responseFromDB.data)
+               console.log("add tree =================", responseFromDB.data)
                 const treeInfo = responseFromDB.data;
                 this.setState({ treeInfo })
              //   this.props.history.push('/listRecord/5ccf7d12fc09b77672dc44de')
@@ -50,6 +50,8 @@ handleSubmit = event => {
 
 
 componentDidMount(){
+    console.log(" ++++++++++ " ,process.env.REACT_APP_API_URL);
+
         axios.get(
             //"http://localhost:5000/api/allgroup",
             `${process.env.REACT_APP_API_URL}/allgroup`,
@@ -87,7 +89,7 @@ componentDidMount(){
 
             <div className="row" >
             {/*<div className="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">/*/}
-            <div className="col-lg-12">
+            <div className="col-lg-12 card card-stats">
             <form onSubmit ={event => this.handleSubmit(event)} >
             <h2>Add Tree</h2>
                 <hr className="colorgraph"/>

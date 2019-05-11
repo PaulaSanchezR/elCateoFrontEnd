@@ -82,8 +82,10 @@ render(){
      return(
         <div className="row">
         {/* <div><h1>{params.id}</h1></div> */}
-        <div className="col-lg-12">
+        <div className="col-lg-12 card card-stats">
          <form id="contact-form" onSubmit = { event => this.handleSubmit(event)}  >
+         <h2>Add Record</h2>
+         <hr className="colorgraph"/>
             <div className="row">
               <div className="col-md-6">
                 <div className="form-group col-md-12">

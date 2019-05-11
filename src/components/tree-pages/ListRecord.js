@@ -1,13 +1,12 @@
 import React ,{ Component } from 'react';
 import axios from "axios";
 import Barcode from 'react-barcode'
-
-import { Redirect } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 
 class ListRecord extends Component {
     constructor(props){
         super(props);
-        console.log("props===", this.props)
+       // console.log("props===", this.props)
         this.state = {
             showEdit:true,
             currentUser: null,
@@ -23,21 +22,15 @@ class ListRecord extends Component {
 
 componentDidMount(){
     const { params } = this.props.match;
-    console.log( "listRecord params.id", params.id)
-    // const id = this.props.theTree.treeInfo.className_id
-    // console.log(" todo ",this.props.theTree)
-   //console.log("props", this.props.theTree.className_id)
-    //   const { params } = id.match
-    //   console.log ("params== ", params)
       axios.get(
-        `http://localhost:5000/api/treerecord/${params.id}`,  
-      // `${process.env.REACT_APP_API_URL}/${params.id}`,
+      //  `http://localhost:5000/api/treerecord/${params.id}`,  
+       `${process.env.REACT_APP_API_URL}/treerecord/${params.id}`,
         //  `http://localhost:5000/api/treerecord/5cbb91d2de7bd47381adeee7`,
            {
               withCredentials:true,
           })
           .then(responseFromApi => {
-              console.log("datos fron DB=====================", responseFromApi.data)
+              console.log("list tree =====================", responseFromApi.data)
               const records = responseFromApi.data;
               this.setState({ treeRecordArray:records});
           })
@@ -47,44 +40,51 @@ componentDidMount(){
   } 
  
   showEditForm(){
-      console.log("entro" )
+     // console.log("entro" )
       this.setState({ showEdit: false})
   }
 
 
-    render(){
+ 
+  deleteRecord(id){
+      console.log("==", id)
+      const { params } = this.props.match;
+      axios.delete(
+         //process.env.REACT_APP_SERVER_URL + `/treerecord/${id}`)
+         `${process.env.REACT_APP_API_URL}/treerecord/${id}`)
+      .then(responseFromApi => {
+          console.log("delete tree", responseFromApi)
+        this.props.history.push(`/listRecord/${params.id}`)
+      })
+      .catch(err => console.log(err))
+  }
 
-     
+    render(){
         const treeRecordArray = this.state.treeRecordArray;
+        console.log("tree" , treeRecordArray)
         const treeInfo = this.state.treeRecordArray[0];
-    //    console.log(" tree Info ==", treeInfo) 
-    //     console.log("////", this.state.treeRecordArray.length)
+        const { params } = this.props.match; 
+             
+ return( 
    
-    const { params } = this.props.match; 
-   // console.log('8888888 ----------------------- ', this.state.treeRecordArray.length)
-    return( 
-      
-        // if does not have any record redirect to AddRecord
  <div className="Container-fluid">
   
-  {
+{
 
 <div className="row" >
 
-<div className="col-lg-8">
+<div className="col-lg-8 card card-stats">
     <form onSubmit ={event => this.handleSubmit(event)} >
     <h2>Tree</h2>
         <hr className="colorgraph"/>
        
             <div className="form-group">
-                    <Barcode 
-                         value={params.id}
-                    />
+                    <Barcode  value={params.id} />
             </div>
            <div className="row" >  
             <div className="form-group">
                 <input 
-                 value={treeInfo}
+                 value={ treeInfo ? treeInfo.treeId.name : ""}
                 onChange={ event => this.genircSync(event)}
                 type="text"
                 name="name" 
@@ -99,7 +99,7 @@ componentDidMount(){
             <hr className="colorgraph"/>
             <div className="form-group">
                 <input 
-                value="{}"
+                value={ treeInfo ? treeInfo.treeId.position : ""}
                 onChange={ event => this.genircSync(event)}
                 type="text" 
                 name="position" 
@@ -116,7 +116,7 @@ componentDidMount(){
         <div className="row" >
             <div className="form-group">
                 <input 
-                value="{}"
+                value={ treeInfo ? treeInfo.treeId.latitud : ""}
                 onChange={ event => this.genircSync(event)}
                 type="text" 
                 name="latitud" 
@@ -132,7 +132,7 @@ componentDidMount(){
             <div className="form-group">
                 <input 
                 type="text" 
-                value="{}"
+                value={ treeInfo ? treeInfo.treeId.altitud : ""}
                 onChange={event => this.genircSync(event)}
                 name="altitud" 
                 id="altitud" 
@@ -148,7 +148,7 @@ componentDidMount(){
         <div className="row">
             <div className="form-group">
                 <input 
-                value="{}"
+                value={ treeInfo ? treeInfo.treeId.desciption : ""}
                 onChange={ event => this.genircSync(event)}
                 type="text" 
                 name="desciption" 
@@ -168,7 +168,7 @@ componentDidMount(){
             onChange={ event => this.genircSync(event)}
             name="groupId" 
             required data-error="Please, Add desciption.">
-            {/* <option value={group._id}>{group.name}</option> */}
+            {/* <option value="">{ treeInfo ? treeInfo.treeId.desciption : ""}</option> */}
                 
                 
                 </select>
@@ -188,7 +188,7 @@ componentDidMount(){
  <tbody> 
   <tr >
       <th collapse="8">
-      <button onClick={() => this.showEditForm()}>Add Record</button>
+      <Link to={`/addRecord/${params.id}`}> Add New Record</Link>
       </th>
   </tr>
   
@@ -213,11 +213,11 @@ componentDidMount(){
             <th>{oneRecord.irrigation}</th>
             <th>{oneRecord.salt}</th>
             <th>{oneRecord.soilhelth}</th>
-            <th>{/*oneRecord.illness.name*/}</th>
+            <th>{oneRecord._id}</th>
             <th>{oneRecord.illnessdescription}</th>
             <th>{oneRecord.soildescription}</th>
             
-            <th><button type="submit">Delete!</button></th>
+            <th>  <button onClick={() => this.deleteRecord(`${oneRecord._id}`) }>Delete</button></th>
            
         </tr> 
         )

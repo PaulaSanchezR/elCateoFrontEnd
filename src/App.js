@@ -13,6 +13,9 @@ import Logout from './components/user-pages/Logout'
 import AddRecord from './components/tree-pages/AddRecord'
 import ListRecord from './components/tree-pages/ListRecord'
 import Search from './components/tree-pages/Search'
+import ChartOne from './components/tree-pages/ChartOne'
+import ChartTwo from './components/tree-pages/ChartTwo'
+import ChartThree from './components/tree-pages/ChartThree'
 
 class App extends Component {
   constructor(props){
@@ -30,9 +33,12 @@ class App extends Component {
  //componentDimount go the the data that I want all the times
 
  componentDidMount(){
-   console.log("entro a componentdidmount")
+   console.log("entro a componentdidmount y esta mejor")
    //talk with the back end
-   axios.get("http://localhost:5000/api/checkuser", { withCredential:true})
+   axios.get(
+     //"http://localhost:5000/api/checkuser"
+     `${process.env.REACT_APP_API_URL}/checkuser`, 
+     { withCredentials:true})
      .then( responseFromBackend => {
        console.log("check",responseFromBackend.data)
       const { theUser } = responseFromBackend.data;
@@ -47,11 +53,28 @@ syncCurrentUser(user){
   console.log("user ==", user)
   this.setState ({ currentUser:user});
 }
+
+logoutClick() {
+  console.log(" entroooooo");
+  axios.delete(
+    process.env.REACT_APP_SERVER_URL + "/api/logout",
+    { withCredentials: true } // FORCE axios to send cookies across domains
+  )
+  .then(() => {
+     // make "currentUser" empty again (like it was at the start)
+    this.syncCurrentUser(null);
+  })
+  .catch(err => {
+    console.log("Logout ERROR", err);
+    alert("Sorry! Something went wrong.");
+  });
+}
+
+
   render() {
     return (
       <div id="root">
-      
-        <div className="row">
+         <div className="row">
          <div className="col-lg-2">
             <div className="sidebar" data-color="black">
                  <div className="sidebar-background">
@@ -90,32 +113,28 @@ syncCurrentUser(user){
                <section> 
                   <header>
                     <nav className="navbar navbar-default">
-                    <i className="pe-7s-close-circle"><div> Log out</div></i>
-                      <p> Welcome { this.state.currentUser.username}</p>
+                    <i className="pe-7s-close-circle">
+                     
+                    </i>
+                      <p> Welcome { this.state.currentUser.username} 
+                       <button onClick={() => this.logoutClick()}>Log Out</button> </p>
                     </nav>
                     <hr className="colorgraph"/>
                  </header>
-                    <div className="col-lg-12 card card-stats">
-                                 
-                    </div>
+                   
                 <div className="row">
-                 <div className="col-lg-3 ">
-                  <div className="card card-stats"><p>ensayo</p></div>
-                 </div>
-                 <div className="col-lg-3 ">
-                  <div className="card card-stats"><p>ensayo</p></div>
-                 </div>
-                 <div className="col-lg-3 ">
-                  <div className="card card-stats"><p>ensayo</p></div>
-                 </div>
+                  <div className="col-lg-6 ">
+                    <div className="card card-stats"><ChartOne /></div>
+                  </div>
+                  <div className="col-lg-6 ">
+                    <div className="card card-stats"><ChartTwo/></div>
+                  </div>
+                  
                 </div>
-                <div className="row">
-                     <div className="col-log-3">
-                     </div>
-                </div>
+               
               </section> 
               ) : ( 
-                  <div>User not logged in</div>
+                  null
                 )}
                 
             <Switch>
