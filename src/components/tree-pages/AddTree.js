@@ -81,6 +81,7 @@ componentDidMount(){
         return (
          
          <section>
+             <div className ="Container-fuid">
             {/* {this.state.treeInfo ?   <Redirect to={{
                                                     pathname:"/listRecord" ,
                                                     state :{id:tree.treeInf._id}} 
@@ -89,7 +90,7 @@ componentDidMount(){
 
             <div className="row" >
             {/*<div className="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">/*/}
-            <div className="col-lg-12 card card-stats">
+            <div className="col-lg-8 card card-stats">
             <form onSubmit ={event => this.handleSubmit(event)} >
             <h2>Add Tree</h2>
                 <hr className="colorgraph"/>
@@ -190,7 +191,9 @@ componentDidMount(){
 
 {/* if the message is not NULL then show the message */}
 { this.state.message && <div> { this.state.message } </div> }
+         </div>
         </section> 
+      
         )
     }
 
